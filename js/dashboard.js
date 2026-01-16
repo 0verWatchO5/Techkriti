@@ -93,7 +93,7 @@ function updateStatsGrid() {
     },
     {
       label: 'Avg Order Value',
-      value: sales.length > 0 ? formatCurrency(storage.calculateTotalSales() / sales.length) : '$0'
+      value: sales.length > 0 ? formatCurrency(storage.calculateTotalSales() / sales.length) : '₹0'
     }
   ];
 
@@ -244,9 +244,9 @@ function updateLowStockAlert() {
  * Format currency
  */
 function formatCurrency(value) {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('en-IN', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'INR',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   }).format(value);

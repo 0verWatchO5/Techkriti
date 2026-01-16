@@ -214,7 +214,7 @@ class StorageManager {
   getDefaultSettings() {
     return {
       theme: 'light',
-      currency: 'USD',
+      currency: 'INR',
       companyName: 'BizPulse',
       companyEmail: 'contact@bizpulse.com'
     };
