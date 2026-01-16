@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - HisabKitab</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .login-box {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 420px;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-header .brand-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+    }
+
+    .login-header h1 {
+      color: #111827;
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .login-header p {
+      color: #6b7280;
+      margin: 0.5rem 0 0 0;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      color: #111827;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .error-message {
+      color: #ef4444;
+      background-color: #fee2e2;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      font-size: 14px;
+      display: none;
+      border-left: 4px solid #ef4444;
+    }
+
+    .success-message {
+      color: #10b981;
+      background-color: #d1fae5;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      font-size: 14px;
+      display: none;
+      border-left: 4px solid #10b981;
+    }
+
+    .demo-info {
+      background-color: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-top: 1.5rem;
+      font-size: 13px;
+      color: #1e40af;
+    }
+
+    .demo-info strong {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .demo-credentials {
+      font-family: 'Courier New', monospace;
+      background-color: rgba(255, 255, 255, 0.5);
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+    }
+
+    body.dark-mode .login-box {
+      background: #1f2937;
+    }
+
+    body.dark-mode .login-header h1 {
+      color: #f3f4f6;
+    }
+
+    body.dark-mode .login-header p {
+      color: #9ca3af;
+    }
+
+    body.dark-mode .form-group label {
+      color: #f3f4f6;
+    }
+
+    body.dark-mode .form-group input {
+      background: #374151;
+      color: #f3f4f6;
+      border-color: #4b5563;
+    }
+
+    body.dark-mode .form-group input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+
+    body.dark-mode .demo-info {
+      background-color: rgba(59, 130, 246, 0.1);
+      color: #93c5fd;
+      border-color: #667eea;
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+
+      .login-header h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-header">
+        <img src="assets/logo.png" alt="HisabKitab Logo" class="brand-icon">
+        <h1>HisabKitab</h1>
+        <p>Smart Business Management Dashboard</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="login-btn">Sign In</button>
+      </form>
+
+      <div class="demo-info">
+        <strong>Demo Credentials:</strong>
+        <div class="demo-credentials">
+          Username: <strong>admin</strong><br>
+          Password: <strong>password123</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check if already logged in
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      window.location.href = 'dashboard.html';
+    }
+
+    const loginForm = document.getElementById('loginForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+
+    // Default credentials for demo
+    const defaultUsername = 'admin';
+    const defaultPassword = 'password123';
+
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      // Clear messages
+      errorMessage.style.display = 'none';
+      successMessage.style.display = 'none';
+
+      // Simple validation
+      if (!username || !password) {
+        errorMessage.textContent = 'Please fill in all fields';
+        errorMessage.style.display = 'block';
+        return;
+      }
+
+      // Check credentials
+      if (username === defaultUsername && password === defaultPassword) {
+        successMessage.textContent = 'Login successful! Redirecting...';
+        successMessage.style.display = 'block';
+
+        // Store login info
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('username', username);
+
+        // Redirect after a brief delay
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 500);
+      } else {
+        errorMessage.textContent = 'Invalid username or password. Use admin / password123';
+        errorMessage.style.display = 'block';
+      }
+    });
+
+    // Allow Enter key to submit
+    document.getElementById('password').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        loginForm.dispatchEvent(new Event('submit'));
+      }
+    });
+
+    // Check for dark mode preference
+    if (localStorage.getItem('darkMode') === 'enabled') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
+</body>
+</html>

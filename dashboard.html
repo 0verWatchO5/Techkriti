@@ -7,6 +7,12 @@
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <script>
+    // Check if user is logged in
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
 </head>
 <body>
   <div class="container">
@@ -78,7 +84,8 @@
         </div>
         <div class="header-right">
           <div class="header-actions">
-            <a href="index.html" style="display: inline-block; padding: 0.5rem 1rem; background-color: #f3f4f6; color: #1f2937; border-radius: 0.75rem; font-weight: 600; text-decoration: none;">← Back to Home</a>
+            <a href="index.html" style="display: inline-block; padding: 0.5rem 1rem; background-color: #f3f4f6; color: #1f2937; border-radius: 0.75rem; font-weight: 600; text-decoration: none; margin-right: 0.5rem;">← Back to Home</a>
+            <button id="logoutBtn" style="padding: 0.5rem 1rem; background-color: #ef4444; color: white; border: none; border-radius: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none;">Logout</button>
           </div>
         </div>
       </header>
@@ -220,5 +227,15 @@
   <script src="js/storage.js"></script>
   <script src="js/charts.js"></script>
   <script src="js/dashboard.js"></script>
+  <script>
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      if (confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('username');
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
 </body>
 </html>
