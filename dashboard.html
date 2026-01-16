@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - HisabKitab</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.png" alt="HisabKitab Logo" class="brand-icon" style="width: 50px; height: 50px; border-radius: 0.5rem;">
+        <div class="brand-text">
+          <h2>HisabKitab</h2>
+          <p>Dashboard</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link active">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="expenses.html" class="nav-link">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Expenses</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="inventory.html" class="nav-link">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">Inventory</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="sales.html" class="nav-link">
+            <span class="nav-icon">🛒</span>
+            <span class="nav-label">Sales</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="analytics.html" class="nav-link">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">Analytics</span>
+          </a>
+        </li>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode"></button>
+        <div class="user-profile">
+          <div class="user-avatar">👤</div>
+          <div class="user-info">
+            <h4>Admin</h4>
+            <p>manager@HisabKitab.com</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="toggle-btn" id="sidebarToggle">☰</button>
+          <div class="page-title">
+            <h1>Dashboard</h1>
+            <p id="dateDisplay"></p>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="header-actions">
+            <a href="index.html" style="display: inline-block; padding: 0.5rem 1rem; background-color: #f3f4f6; color: #1f2937; border-radius: 0.75rem; font-weight: 600; text-decoration: none;">← Back to Home</a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Wrapper -->
+      <div class="content-wrapper">
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card revenue">
+            <div class="kpi-label">Total Revenue</div>
+            <div class="kpi-value" id="totalRevenue">$0</div>
+            <div class="kpi-change positive" id="revenueChange">
+              <span>↑</span> <span id="revenuePercentage">0%</span>
+            </div>
+          </div>
+
+          <div class="kpi-card expenses">
+            <div class="kpi-label">Total Expenses</div>
+            <div class="kpi-value" id="totalExpenses">$0</div>
+            <div class="kpi-change negative" id="expensesChange">
+              <span>↓</span> <span id="expensesPercentage">0%</span>
+            </div>
+          </div>
+
+          <div class="kpi-card inventory">
+            <div class="kpi-label">Inventory Value</div>
+            <div class="kpi-value" id="inventoryValue">$0</div>
+            <div class="kpi-change" id="inventoryStatus" style="color: #f59e0b;">
+              <span id="lowStockCount">0</span> low stock items
+            </div>
+          </div>
+
+          <div class="kpi-card profit">
+            <div class="kpi-label">Net Profit</div>
+            <div class="kpi-value" id="netProfit">$0</div>
+            <div class="kpi-change positive">
+              <span id="profitMargin">0%</span> margin
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row 1 -->
+        <div class="charts-grid">
+          <div class="chart-container">
+            <h3 class="chart-title">Profit Trend</h3>
+            <div class="chart-wrapper">
+              <canvas id="profitChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <h3 class="chart-title">Expense Breakdown</h3>
+            <div class="chart-wrapper">
+              <canvas id="expenseChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row 2 -->
+        <div class="charts-grid">
+          <div class="chart-container">
+            <h3 class="chart-title">Top Selling Products</h3>
+            <div class="chart-wrapper">
+              <canvas id="productsChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <h3 class="chart-title">Quick Stats</h3>
+            <div class="stats-grid" id="statsGrid">
+              <!-- Stats will be filled by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+          <!-- Recent Expenses -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Recent Expenses</h3>
+              <a href="expenses.html" style="color: #2563eb; font-weight: 600; text-decoration: none;">View All</a>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recentExpensesTable">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Recent Sales -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Recent Sales</h3>
+              <a href="sales.html" style="color: #2563eb; font-weight: 600; text-decoration: none;">View All</a>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recentSalesTable">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Low Stock Alert -->
+        <div id="lowStockAlert" style="display: none; margin-top: 2rem;">
+          <div class="alert alert-warning">
+            <span class="alert-icon">⚠️</span>
+            <div>
+              <strong>Low Stock Alert!</strong>
+              <p style="margin-top: 0.5rem; margin-bottom: 0;">Some products are running low on inventory. Please review and reorder as needed.</p>
+              <a href="inventory.html" style="color: #f59e0b; font-weight: 600; text-decoration: none; margin-top: 0.5rem;">Go to Inventory →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

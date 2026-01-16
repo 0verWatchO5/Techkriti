@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics - HisabKitab</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.png" alt="HisabKitab Logo" class="brand-icon" style="width: 50px; height: 50px; border-radius: 0.5rem;">
+        <div class="brand-text">
+          <h2>HisabKitab</h2>
+          <p>Dashboard</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="expenses.html" class="nav-link">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Expenses</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="inventory.html" class="nav-link">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">Inventory</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="sales.html" class="nav-link">
+            <span class="nav-icon">🛒</span>
+            <span class="nav-label">Sales</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="analytics.html" class="nav-link active">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">Analytics</span>
+          </a>
+        </li>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode"></button>
+        <div class="user-profile">
+          <div class="user-avatar">👤</div>
+          <div class="user-info">
+            <h4>Admin</h4>
+            <p>manager@HisabKitab.com</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="toggle-btn" id="sidebarToggle">☰</button>
+          <div class="page-title">
+            <h1>Profit & Analytics</h1>
+            <p>Financial insights and business performance</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Wrapper -->
+      <div class="content-wrapper">
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card profit">
+            <div class="kpi-label">Net Profit</div>
+            <div class="kpi-value" id="netProfit">$0</div>
+            <div id="profitChange" style="margin-top: 0.5rem; font-size: 0.875rem;"></div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Total Revenue</div>
+            <div class="kpi-value" id="totalRevenue">$0</div>
+            <div class="kpi-change positive" id="revenueChange" style="margin-top: 0.5rem;">
+              <span id="revenuePercentage">0%</span> of target
+            </div>
+          </div>
+
+          <div class="kpi-card expenses">
+            <div class="kpi-label">Total Expenses</div>
+            <div class="kpi-value" id="totalExpenses">$0</div>
+            <div id="expenseChange" style="margin-top: 0.5rem; font-size: 0.875rem;"></div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-label">Profit Margin</div>
+            <div class="kpi-value" id="profitMargin">0%</div>
+            <div id="marginChange" style="margin-top: 0.5rem; font-size: 0.875rem; color: #2563eb;">Healthy</div>
+          </div>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Key Performance Indicators</h3>
+          </div>
+          <div class="card-body">
+            <div class="stats-grid" id="kpiGrid">
+              <!-- Populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row 1 -->
+        <div class="charts-grid">
+          <div class="chart-container">
+            <h3 class="chart-title">Revenue vs Expenses</h3>
+            <div class="chart-wrapper">
+              <canvas id="revenueExpenseChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <h3 class="chart-title">Profit Trend (Last 6 Months)</h3>
+            <div class="chart-wrapper">
+              <canvas id="profitTrendChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row 2 -->
+        <div class="charts-grid">
+          <div class="chart-container">
+            <h3 class="chart-title">Revenue Sources</h3>
+            <div class="chart-wrapper">
+              <canvas id="revenueSourceChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <h3 class="chart-title">Expense Categories</h3>
+            <div class="chart-wrapper">
+              <canvas id="expenseCategoryChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Financial Summary -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+          <!-- Summary Stats -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Financial Summary</h3>
+            </div>
+            <div class="card-body">
+              <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb;">
+                  <span style="color: #6b7280;">Gross Revenue</span>
+                  <span style="font-size: 1.25rem; font-weight: 700; color: #10b981;" id="summaryRevenue">$0</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb;">
+                  <span style="color: #6b7280;">Total Expenses</span>
+                  <span style="font-size: 1.25rem; font-weight: 700; color: #ef4444;" id="summaryExpenses">$0</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(79, 70, 229, 0.1) 100%); border-radius: 0.75rem;">
+                  <span style="font-weight: 600;">Net Profit</span>
+                  <span style="font-size: 1.5rem; font-weight: 700; color: #2563eb;" id="summaryProfit">$0</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f3f4f6; border-radius: 0.75rem;">
+                  <span style="font-weight: 600;">Profit Margin %</span>
+                  <span style="font-size: 1.25rem; font-weight: 700; color: #6b7280;" id="summaryMargin">0%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Growth Metrics -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Growth Metrics</h3>
+            </div>
+            <div class="card-body">
+              <div id="growthMetrics" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Breakdown -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+          <!-- Top Products -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Top 5 Products by Revenue</h3>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Revenue</th>
+                  </tr>
+                </thead>
+                <tbody id="topProductsBody">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Top Expenses -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Top 5 Expense Categories</h3>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="topExpensesBody">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/analytics.js"></script>
+</body>
+</html>

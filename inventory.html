@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory - HisabKitab</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.png" alt="HisabKitab Logo" class="brand-icon" style="width: 50px; height: 50px; border-radius: 0.5rem;">
+        <div class="brand-text">
+          <h2>HisabKitab</h2>
+          <p>Dashboard</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="expenses.html" class="nav-link">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Expenses</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="inventory.html" class="nav-link active">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">Inventory</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="sales.html" class="nav-link">
+            <span class="nav-icon">🛒</span>
+            <span class="nav-label">Sales</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="analytics.html" class="nav-link">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">Analytics</span>
+          </a>
+        </li>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode"></button>
+        <div class="user-profile">
+          <div class="user-avatar">👤</div>
+          <div class="user-info">
+            <h4>Admin</h4>
+            <p>manager@HisabKitab.com</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="toggle-btn" id="sidebarToggle">☰</button>
+          <div class="page-title">
+            <h1>Inventory Management</h1>
+            <p>Track products and stock levels</p>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="header-actions">
+            <button class="btn btn-primary" id="addProductBtn">+ Add Product</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Wrapper -->
+      <div class="content-wrapper">
+        <!-- Summary Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card inventory">
+            <div class="kpi-label">Total Products</div>
+            <div class="kpi-value" id="totalProducts">0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Inventory Value</div>
+            <div class="kpi-value" id="inventoryTotal">$0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Low Stock Items</div>
+            <div class="kpi-value" id="lowStockCount">0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Total Units</div>
+            <div class="kpi-value" id="totalUnits">0</div>
+          </div>
+        </div>
+
+        <!-- Low Stock Alert -->
+        <div id="lowStockAlert" style="display: none; margin-bottom: 2rem;">
+          <div class="alert alert-warning">
+            <span class="alert-icon">⚠️</span>
+            <div>
+              <strong>Low Stock Alert!</strong>
+              <p style="margin-top: 0.5rem; margin-bottom: 0;">The following items are below minimum stock level:</p>
+              <div id="lowStockList" style="margin-top: 1rem;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+          <div class="chart-container">
+            <h3 class="chart-title">Inventory Value by Category</h3>
+            <div class="chart-wrapper">
+              <canvas id="inventoryCategoryChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <h3 class="chart-title">Stock Status</h3>
+            <div class="chart-wrapper">
+              <canvas id="stockStatusChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+          <div class="filter-item">
+            <input type="text" class="form-input" id="searchInput" placeholder="Search products...">
+          </div>
+          <div class="filter-item">
+            <select class="form-select" id="categoryFilter">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <select class="form-select" id="stockFilter">
+              <option value="">All Stock Status</option>
+              <option value="low">Low Stock</option>
+              <option value="normal">Normal</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Inventory Table -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Products</h3>
+            <span id="productsCount" style="color: #6b7280; font-weight: 500;">0 products</span>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>SKU</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Unit Cost</th>
+                    <th>Unit Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="inventoryTableBody">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add/Edit Product Modal -->
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Product</h2>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <form id="productForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required">Product Name</label>
+            <input type="text" class="form-input" id="nameInput" placeholder="Enter product name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">SKU</label>
+            <input type="text" class="form-input" id="skuInput" placeholder="SKU-001" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required">Category</label>
+            <select class="form-select" id="categoryInput" required>
+              <option value="">Select a category</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Cables">Cables</option>
+              <option value="Software">Software</option>
+              <option value="Services">Services</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Unit Cost ($)</label>
+            <input type="number" class="form-input" id="costInput" placeholder="0.00" required min="0" step="0.01">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required">Unit Price ($)</label>
+            <input type="number" class="form-input" id="priceInput" placeholder="0.00" required min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Current Quantity</label>
+            <input type="number" class="form-input" id="quantityInput" placeholder="0" required min="0">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Minimum Stock Level</label>
+          <input type="number" class="form-input" id="minStockInput" placeholder="0" required min="0">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/inventory.js"></script>
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HisabKitab - Smart Business Management Dashboard</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+    
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      color: #111827;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%232563eb" fill-opacity="0.03" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+      background-size: cover;
+      background-position: bottom;
+    }
+    
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4rem;
+      animation: fadeInUp 0.8s ease;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #111827;
+    }
+    
+    .brand img {
+      width: 60px;
+      height: 60px;
+      border-radius: 1rem;
+      background: white;
+      padding: 5px;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15);
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .cta-primary {
+      background: #2563eb;
+      color: white;
+      padding: 0.875rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+      display: inline-block;
+    }
+    
+    .cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+      background: #1d4ed8;
+    }
+    
+    .hero-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
+    
+    .hero-text {
+      animation: fadeInUp 1s ease 0.2s backwards;
+    }
+    
+    .hero-text h1 {
+      font-size: 3.75rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #111827, #1e3a8a, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-text p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      color: #4b5563;
+      line-height: 1.7;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .btn-launch {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: white;
+      padding: 1.125rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+      font-size: 1.125rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .btn-launch:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(251, 191, 36, 0.5);
+    }
+    
+    .btn-secondary {
+      background: white;
+      color: #2563eb;
+      padding: 1.125rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 2px solid #e5e7eb;
+      transition: all 0.3s;
+      font-size: 1.125rem;
+    }
+    
+    .btn-secondary:hover {
+      background: #f9fafb;
+      border-color: #2563eb;
+    }
+    
+    .hero-image {
+      animation: fadeInUp 1s ease 0.4s backwards;
+      position: relative;
+    }
+    
+    .dashboard-preview {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1rem;
+      border: 2px solid #e5e7eb;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+    }
+    
+    .dashboard-preview img {
+      width: 100%;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+      animation: fadeInUp 1.2s ease 0.6s backwards;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      border: 1px solid #e5e7eb;
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #2563eb;
+    }
+    
+    .stat-label {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-main {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .hero-text h1 {
+        font-size: 2.5rem;
+      }
+      
+      .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .brand {
+        font-size: 1.25rem;
+      }
+      
+      .brand img {
+        width: 45px;
+        height: 45px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <!-- Navigation Bar -->
+      <nav class="nav-bar">
+        <div class="brand">
+          <img src="assets/logo.png" alt="HisabKitab Logo">
+          HisabKitab
+        </div>
+        <a href="dashboard.html" class="cta-primary">Open Dashboard →</a>
+      </nav>
+
+      <!-- Hero Main Content -->
+      <div class="hero-main">
+        <div class="hero-text">
+          <h1>Transform Your Business Management</h1>
+          <p>
+            Experience the power of intelligent business insights. Track expenses, manage inventory, analyze sales, and maximize profits—all in one beautiful dashboard.
+          </p>
+          <div class="hero-buttons">
+            <a href="dashboard.html" class="btn-launch">
+              <span>🚀</span> Launch Dashboard
+            </a>
+            <a href="#features" class="btn-secondary">Explore Features</a>
+          </div>
+        </div>
+        
+        <div class="hero-image">
+          <div class="dashboard-preview">
+            <img src="assets/logo.png" alt="HisabKitab Dashboard Interface Preview">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Free Forever</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">5+</span>
+          <span class="stat-label">Powerful Features</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">⚡</span>
+          <span class="stat-label">Real-time Updates</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">🔒</span>
+          <span class="stat-label">100% Private</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <section id="features" style="padding: 5rem 2rem; background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <span style="display: inline-block; padding: 0.5rem 1.5rem; background: linear-gradient(135deg, #dbeafe, #e0f2fe); color: #1e40af; border-radius: 50px; font-weight: 600; font-size: 0.875rem; margin-bottom: 1rem;">COMPREHENSIVE FEATURES</span>
+        <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem; color: #111827; background: linear-gradient(135deg, #1e3a8a, #2563eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+          Everything You Need in One Place
+        </h2>
+        <p style="font-size: 1.125rem; color: #6b7280; max-width: 600px; margin: 0 auto;">
+          Powerful tools designed to streamline your business operations and drive growth
+        </p>
+      </div>
+
+      <!-- Feature Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+        <!-- Feature 1 -->
+        <div style="background: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s; border: 2px solid transparent; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, #fef3c7, #fde68a); opacity: 0.3; border-radius: 0 1.5rem 0 100%;"></div>
+          <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 1.25rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);">💰</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #111827;">Expense Tracking</h3>
+          <p style="color: #6b7280; margin: 0; line-height: 1.6;">Monitor all business expenses by category, set budgets, and get detailed insights to control costs effectively.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div style="background: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s; border: 2px solid transparent; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); opacity: 0.3; border-radius: 0 1.5rem 0 100%;"></div>
+          <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 1.25rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">📦</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #111827;">Inventory Management</h3>
+          <p style="color: #6b7280; margin: 0; line-height: 1.6;">Track stock levels, receive low-stock alerts, and manage product information with automatic valuation calculations.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div style="background: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s; border: 2px solid transparent; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, #d1fae5, #a7f3d0); opacity: 0.3; border-radius: 0 1.5rem 0 100%;"></div>
+          <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 1.25rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);">🛒</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #111827;">Sales Tracking</h3>
+          <p style="color: #6b7280; margin: 0; line-height: 1.6;">Record sales transactions, analyze trends, and automatically sync inventory levels for accurate stock management.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div style="background: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s; border: 2px solid transparent; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, #e9d5ff, #d8b4fe); opacity: 0.3; border-radius: 0 1.5rem 0 100%;"></div>
+          <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #a855f7, #9333ea); border-radius: 1.25rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);">📊</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #111827;">Profit Analytics</h3>
+          <p style="color: #6b7280; margin: 0; line-height: 1.6;">View comprehensive financial reports with interactive charts, profit margins, and growth metrics at a glance.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div style="background: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s; border: 2px solid transparent; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, #fce7f3, #fbcfe8); opacity: 0.3; border-radius: 0 1.5rem 0 100%;"></div>
+          <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #ec4899, #db2777); border-radius: 1.25rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);">🌙</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #111827;">Dark Mode</h3>
+          <p style="color: #6b7280; margin: 0; line-height: 1.6;">Toggle between light and dark themes with a single click for comfortable viewing in any lighting condition.</p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div style="background: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s; border: 2px solid transparent; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(135deg, #fed7aa, #fdba74); opacity: 0.3; border-radius: 0 1.5rem 0 100%;"></div>
+          <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #f97316, #ea580c); border-radius: 1.25rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem; box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);">📱</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #111827;">Fully Responsive</h3>
+          <p style="color: #6b7280; margin: 0; line-height: 1.6;">Works seamlessly across all devices—desktop, tablet, and mobile—ensuring productivity anywhere, anytime.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section style="padding: 5rem 2rem; background: white; position: relative; overflow: hidden;">
+    <div style="position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: linear-gradient(135deg, #dbeafe, #e0f2fe); border-radius: 50%; opacity: 0.3; z-index: 0;"></div>
+    <div style="position: absolute; bottom: -150px; left: -150px; width: 500px; height: 500px; background: linear-gradient(135deg, #fef3c7, #fde68a); border-radius: 50%; opacity: 0.2; z-index: 0;"></div>
+    
+    <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <span style="display: inline-block; padding: 0.5rem 1.5rem; background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; border-radius: 50px; font-weight: 600; font-size: 0.875rem; margin-bottom: 1rem;">WHY CHOOSE US</span>
+        <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem; color: #111827;">
+          Built for Modern Business Owners
+        </h2>
+        <p style="font-size: 1.125rem; color: #6b7280; max-width: 600px; margin: 0 auto;">
+          HisabKitab combines simplicity with powerful features to help you make smarter business decisions
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+        <!-- Benefits List -->
+        <div>
+          <div style="margin-bottom: 2.5rem; padding-left: 1rem; border-left: 4px solid #10b981;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">⚡</div>
+              <h3 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin: 0;">Lightning Fast</h3>
+            </div>
+            <p style="color: #6b7280; margin: 0; font-size: 1.0625rem; line-height: 1.6;">No loading times, no lag. Everything happens instantly because your data stays local in your browser.</p>
+          </div>
+
+          <div style="margin-bottom: 2.5rem; padding-left: 1rem; border-left: 4px solid #3b82f6;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🎯</div>
+              <h3 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin: 0;">Simple to Use</h3>
+            </div>
+            <p style="color: #6b7280; margin: 0; font-size: 1.0625rem; line-height: 1.6;">Intuitive interface designed for business owners, not accountants. Start managing your business in minutes.</p>
+          </div>
+
+          <div style="margin-bottom: 2.5rem; padding-left: 1rem; border-left: 4px solid #a855f7;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #e9d5ff, #d8b4fe); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🔒</div>
+              <h3 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin: 0;">100% Private</h3>
+            </div>
+            <p style="color: #6b7280; margin: 0; font-size: 1.0625rem; line-height: 1.6;">Your sensitive business data never leaves your device. No cloud uploads, no third-party access.</p>
+          </div>
+
+          <div style="padding-left: 1rem; border-left: 4px solid #f59e0b;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #fef3c7, #fde68a); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">💎</div>
+              <h3 style="font-size: 1.5rem; font-weight: 700; color: #111827; margin: 0;">Zero Cost</h3>
+            </div>
+            <p style="color: #6b7280; margin: 0; font-size: 1.0625rem; line-height: 1.6;">No subscriptions, no hidden fees, no credit card required. Completely free now and forever.</p>
+          </div>
+        </div>
+
+        <!-- Benefits Visual -->
+        <div style="background: linear-gradient(135deg, #1e3a8a, #2563eb); border-radius: 2rem; padding: 3rem; text-align: center; min-height: 500px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 25px 50px rgba(37, 99, 235, 0.3); position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 20px; right: 20px; width: 100px; height: 100px; background: rgba(255, 255, 255, 0.1); border-radius: 50%;"></div>
+          <div style="position: absolute; bottom: 20px; left: 20px; width: 150px; height: 150px; background: rgba(255, 255, 255, 0.1); border-radius: 50%;"></div>
+          
+          <img src="assets/logo.png" alt="HisabKitab Business Analytics Visualization" style="width: 280px; height: 280px; border-radius: 2rem; margin-bottom: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; z-index: 1;">
+          
+          <div style="position: relative; z-index: 1;">
+            <h3 style="color: white; font-size: 1.75rem; font-weight: 700; margin-bottom: 1rem;">Start Managing Smarter Today</h3>
+            <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.125rem; margin: 0;">Join businesses making data-driven decisions with HisabKitab</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section style="padding: 5rem 2rem; background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%); color: white; position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1440 320\"><path fill=\"%23ffffff\" fill-opacity=\"0.05\" d=\"M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z\"></path></svg>'); background-size: cover; background-position: top;"></div>
+    
+    <div style="max-width: 900px; margin: 0 auto; text-align: center; position: relative; z-index: 1;">
+      <div style="display: inline-block; padding: 0.5rem 1.5rem; background: rgba(255, 255, 255, 0.2); border-radius: 50px; font-weight: 600; font-size: 0.875rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px);">GET STARTED TODAY</div>
+      
+      <h2 style="font-size: 3.25rem; font-weight: 800; margin-bottom: 1.5rem; line-height: 1.2;">
+        Ready to Transform Your Business?
+      </h2>
+      
+      <p style="font-size: 1.25rem; margin-bottom: 3rem; opacity: 0.95; line-height: 1.7;">
+        Join smart business owners who are making data-driven decisions with HisabKitab. No credit card required, no installation needed. Start managing smarter in seconds.
+      </p>
+      
+      <div style="display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
+        <a href="dashboard.html" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; padding: 1.25rem 3rem; border-radius: 50px; font-weight: 700; text-decoration: none; transition: all 0.3s; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4); font-size: 1.25rem; display: inline-flex; align-items: center; gap: 0.75rem;">
+          🚀 Launch Dashboard Now
+        </a>
+        <a href="#features" style="background: rgba(255, 255, 255, 0.15); color: white; padding: 1.25rem 3rem; border-radius: 50px; font-weight: 600; text-decoration: none; border: 2px solid rgba(255, 255, 255, 0.4); transition: all 0.3s; backdrop-filter: blur(10px); font-size: 1.25rem;">
+          See Features
+        </a>
+      </div>
+      
+      <!-- Trust Indicators -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid rgba(255, 255, 255, 0.2);">
+        <div>
+          <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">100%</div>
+          <div style="opacity: 0.9; font-size: 0.875rem;">Free Forever</div>
+        </div>
+        <div>
+          <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">🔒</div>
+          <div style="opacity: 0.9; font-size: 0.875rem;">Private & Secure</div>
+        </div>
+        <div>
+          <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">⚡</div>
+          <div style="opacity: 0.9; font-size: 0.875rem;">Instant Access</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="padding: 3rem 2rem; background: #0f172a; color: #94a3b8;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem;">
+        <!-- Brand -->
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+            <img src="assets/logo.png" alt="HisabKitab" style="width: 40px; height: 40px; border-radius: 0.5rem;">
+            <span style="font-size: 1.5rem; font-weight: 700; color: white;">HisabKitab</span>
+          </div>
+          <p style="color: #94a3b8; margin: 0; line-height: 1.6;">
+            A modern, intelligent business management dashboard designed for entrepreneurs who want to make smarter decisions.
+          </p>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h4 style="color: white; font-weight: 600; margin-bottom: 1rem;">Product</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.75rem;"><a href="dashboard.html" style="color: #94a3b8; text-decoration: none; transition: color 0.3s;">Dashboard</a></li>
+            <li style="margin-bottom: 0.75rem;"><a href="expenses.html" style="color: #94a3b8; text-decoration: none; transition: color 0.3s;">Expenses</a></li>
+            <li style="margin-bottom: 0.75rem;"><a href="inventory.html" style="color: #94a3b8; text-decoration: none; transition: color 0.3s;">Inventory</a></li>
+            <li style="margin-bottom: 0.75rem;"><a href="sales.html" style="color: #94a3b8; text-decoration: none; transition: color 0.3s;">Sales</a></li>
+            <li><a href="analytics.html" style="color: #94a3b8; text-decoration: none; transition: color 0.3s;">Analytics</a></li>
+          </ul>
+        </div>
+        
+        <!-- Features -->
+        <div>
+          <h4 style="color: white; font-weight: 600; margin-bottom: 1rem;">Features</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.75rem;"><span style="color: #94a3b8;">Expense Tracking</span></li>
+            <li style="margin-bottom: 0.75rem;"><span style="color: #94a3b8;">Inventory Control</span></li>
+            <li style="margin-bottom: 0.75rem;"><span style="color: #94a3b8;">Sales Analytics</span></li>
+            <li style="margin-bottom: 0.75rem;"><span style="color: #94a3b8;">Profit Reports</span></li>
+            <li><span style="color: #94a3b8;">Dark Mode</span></li>
+          </ul>
+        </div>
+        
+        <!-- Company -->
+        <div>
+          <h4 style="color: white; font-weight: 600; margin-bottom: 1rem;">Company</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.75rem;"><a href="#features" style="color: #94a3b8; text-decoration: none; transition: color 0.3s;">About</a></li>
+            <li style="margin-bottom: 0.75rem;"><a href="#features" style="color: #94a3b8; text-decoration: none; transition: color 0.3s;">Privacy</a></li>
+            <li><a href="#features" style="color: #94a3b8; text-decoration: none; transition: color 0.3s;">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Copyright -->
+      <div style="padding-top: 2rem; border-top: 1px solid #1e293b; text-align: center;">
+        <p style="margin: 0; color: #64748b;">
+          © 2026 HisabKitab. All rights reserved. Built with ❤️ for business owners.
+        </p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

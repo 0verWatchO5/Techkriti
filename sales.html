@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales - HisabKitab</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.png" alt="HisabKitab Logo" class="brand-icon" style="width: 50px; height: 50px; border-radius: 0.5rem;">
+        <div class="brand-text">
+          <h2>HisabKitab</h2>
+          <p>Dashboard</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="expenses.html" class="nav-link">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Expenses</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="inventory.html" class="nav-link">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">Inventory</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="sales.html" class="nav-link active">
+            <span class="nav-icon">🛒</span>
+            <span class="nav-label">Sales</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="analytics.html" class="nav-link">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">Analytics</span>
+          </a>
+        </li>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode"></button>
+        <div class="user-profile">
+          <div class="user-avatar">👤</div>
+          <div class="user-info">
+            <h4>Admin</h4>
+            <p>manager@HisabKitab.com</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="toggle-btn" id="sidebarToggle">☰</button>
+          <div class="page-title">
+            <h1>Sales Management</h1>
+            <p>Track sales and revenue</p>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="header-actions">
+            <button class="btn btn-primary" id="addSaleBtn">+ Add Sale</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Wrapper -->
+      <div class="content-wrapper">
+        <!-- Summary Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Sales</div>
+            <div class="kpi-value" id="totalSalesAmount">$0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">This Month</div>
+            <div class="kpi-value" id="monthlySalesAmount">$0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Total Orders</div>
+            <div class="kpi-value" id="totalOrders">0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Avg Order Value</div>
+            <div class="kpi-value" id="avgOrderValue">$0</div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+          <div class="chart-container">
+            <h3 class="chart-title">Sales Trend</h3>
+            <div class="chart-wrapper">
+              <canvas id="salesTrendChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <h3 class="chart-title">Top Products</h3>
+            <div class="chart-wrapper">
+              <canvas id="topProductsChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+          <div class="filter-item">
+            <input type="text" class="form-input" id="searchInput" placeholder="Search by product or customer...">
+          </div>
+          <div class="filter-item">
+            <select class="form-select" id="statusFilter">
+              <option value="">All Status</option>
+              <option value="completed">Completed</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <input type="date" class="form-input" id="dateFilter">
+          </div>
+        </div>
+
+        <!-- Sales Table -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Sales List</h3>
+            <span id="salesCount" style="color: #6b7280; font-weight: 500;">0 sales</span>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Customer</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="salesTableBody">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add/Edit Sale Modal -->
+  <div class="modal" id="saleModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Sale</h2>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <form id="saleForm">
+        <div class="form-group">
+          <label class="form-label required">Product</label>
+          <select class="form-select" id="productInput" required onchange="updateProductDetails()">
+            <option value="">Select a product</option>
+          </select>
+          <div id="productStock" style="margin-top: 0.5rem; font-size: 0.875rem; color: #6b7280;"></div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required">Quantity</label>
+            <input type="number" class="form-input" id="quantityInput" placeholder="0" required min="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Unit Price ($)</label>
+            <input type="number" class="form-input" id="unitPriceInput" placeholder="0.00" required min="0" step="0.01" readonly>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Total Amount ($)</label>
+          <input type="number" class="form-input" id="totalAmountInput" placeholder="0.00" required readonly>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required">Customer Name</label>
+            <input type="text" class="form-input" id="customerInput" placeholder="Enter customer name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Date</label>
+            <input type="date" class="form-input" id="dateInput" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="statusInput">
+            <option value="completed">Completed</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Sale</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/sales.js"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expenses - HisabKitab</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.png" alt="HisabKitab Logo" class="brand-icon" style="width: 50px; height: 50px; border-radius: 0.5rem;">
+        <div class="brand-text">
+          <h2>HisabKitab</h2>
+          <p>Dashboard</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="expenses.html" class="nav-link active">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Expenses</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="inventory.html" class="nav-link">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">Inventory</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="sales.html" class="nav-link">
+            <span class="nav-icon">🛒</span>
+            <span class="nav-label">Sales</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="analytics.html" class="nav-link">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">Analytics</span>
+          </a>
+        </li>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode"></button>
+        <div class="user-profile">
+          <div class="user-avatar">👤</div>
+          <div class="user-info">
+            <h4>Admin</h4>
+            <p>manager@HisabKitab.com</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="toggle-btn" id="sidebarToggle">☰</button>
+          <div class="page-title">
+            <h1>Expense Management</h1>
+            <p>Track and manage all business expenses</p>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="header-actions">
+            <button class="btn btn-primary" id="addExpenseBtn">+ Add Expense</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Wrapper -->
+      <div class="content-wrapper">
+        <!-- Summary Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card expenses">
+            <div class="kpi-label">Total Expenses</div>
+            <div class="kpi-value" id="totalExpensesAmount">$0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">This Month</div>
+            <div class="kpi-value" id="monthlyExpensesAmount">$0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Pending</div>
+            <div class="kpi-value" id="pendingExpensesCount">0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Average Expense</div>
+            <div class="kpi-value" id="avgExpenseAmount">$0</div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+          <div class="chart-container">
+            <h3 class="chart-title">Expenses by Category</h3>
+            <div class="chart-wrapper">
+              <canvas id="expenseCategoryChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <h3 class="chart-title">Monthly Trend</h3>
+            <div class="chart-wrapper">
+              <canvas id="monthlyExpenseChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+          <div class="filter-item">
+            <input type="text" class="form-input" id="searchInput" placeholder="Search expenses...">
+          </div>
+          <div class="filter-item">
+            <select class="form-select" id="categoryFilter">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <select class="form-select" id="statusFilter">
+              <option value="">All Status</option>
+              <option value="paid">Paid</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Expenses Table -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Expenses List</h3>
+            <span id="expensesCount" style="color: #6b7280; font-weight: 500;">0 expenses</span>
+          </div>
+          <div class="card-body">
+            <div class="table-wrapper">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="expensesTableBody">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add/Edit Expense Modal -->
+  <div class="modal" id="expenseModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Expense</h2>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <form id="expenseForm">
+        <div class="form-group">
+          <label class="form-label required">Category</label>
+          <select class="form-select" id="categoryInput" required>
+            <option value="">Select a category</option>
+            <option value="Rent">Rent</option>
+            <option value="Utilities">Utilities</option>
+            <option value="Salaries">Salaries</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Supplies">Supplies</option>
+            <option value="Travel">Travel</option>
+            <option value="Equipment">Equipment</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label required">Amount ($)</label>
+            <input type="number" class="form-input" id="amountInput" placeholder="0.00" required min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Date</label>
+            <input type="date" class="form-input" id="dateInput" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="descriptionInput" placeholder="Enter expense description..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="statusInput">
+            <option value="pending">Pending</option>
+            <option value="paid">Paid</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Expense</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/expenses.js"></script>
+</body>
+</html>
